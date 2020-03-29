@@ -22,6 +22,12 @@ awk -v tstart="$from_date" -v tend="$to_date" -f date-filter.awk "$access_log" |
 
 echo
 
+echo "Errors:"
+awk -v tstart="$from_date" -v tend="$to_date" -f date-filter.awk "$access_log" | awk '{ print $9; }' \
+   | grep -E "[4-5][0-9][0-9]" | sort | uniq -c | sort -nr
+
+echo
+
 echo "HTTP response codes:"
 awk -v tstart="$from_date" -v tend="$to_date" -f date-filter.awk "$access_log" | awk '{ print $9; }' \
    | sort | uniq -c | sort -nr

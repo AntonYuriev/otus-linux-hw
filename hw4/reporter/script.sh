@@ -12,7 +12,7 @@ REPORT_EMAIL=a.yurev@qiwi.com
 PREV_RUN_FILE="prevrun"
 LOCK_FILE="lock"
 
-cd $(dirname $0)
+cd /vagrant/reporter
 
 #multi-start protection
 
