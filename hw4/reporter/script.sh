@@ -2,15 +2,17 @@
 
 #configuration
 
-ACCESS_LOG="/vagrant/access.log"
+ACCESS_LOG="/vagrant/log/access.log"
 MAX_REPORTED_IP_COUNT=10
 MAX_REPORTED_URL_COUNT=10
 REPORT_EMAIL=a.yurev@qiwi.com
 
+###
+
 PREV_RUN_FILE="prevrun"
 LOCK_FILE="lock"
 
-cd /vagrant
+cd $(dirname $0)
 
 #multi-start protection
 
@@ -36,6 +38,7 @@ initDateInterval() {
 initDateInterval
 
 ./report.sh "$ACCESS_LOG" "$from_date" "$to_date" "$MAX_REPORTED_IP_COUNT" "$MAX_REPORTED_URL_COUNT"
+./report.sh "$ACCESS_LOG" "$from_date" "$to_date" "$MAX_REPORTED_IP_COUNT" "$MAX_REPORTED_URL_COUNT" | mail -s "Log report" "$REPORT_EMAIL"
 
 echo "from_date=$to_date" > "$PREV_RUN_FILE"
 rm -f "$LOCK_FILE"
