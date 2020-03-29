@@ -1,4 +1,4 @@
-function to_unix(str) {
+function parseTimestamp(str) {
   split(str,a,"/|:| ")
   return mktime(a[3]" "month[a[2]]" "a[1]" "a[4]" "a[5]" "a[6])
 }
@@ -9,5 +9,5 @@ BEGIN{
   month["Oct"]="10";month["Nov"]="11";month["Dec"]="12"
   FS="\\[|\\]"
 }
-{ t=to_unix($2) }
+{ t=parseTimestamp($2) }
 (tstart<=t && t<tend)
