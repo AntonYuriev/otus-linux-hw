@@ -4,10 +4,10 @@
 
 Результат выполнения может быть развёрнут с использованием Vagrant. Подготовка виртуальной машины в файле provision_watchlog.sh
 
-/watchlog/watchlog.cfg -- файл с конфигурацией для сервиса, на вирутальной машине копируется в /etc/sysconfig
-/watchlog/watchlog.sh -- сам скрипт
-/watchlog/watchlog.service -- юнит для сервиса
-/watchlog/watchlog.timer -- юнит для таймера
+- /watchlog/watchlog.cfg -- файл с конфигурацией для сервиса, на вирутальной машине копируется в /etc/sysconfig
+- /watchlog/watchlog.sh -- сам скрипт
+- /watchlog/watchlog.service -- юнит для сервиса
+- /watchlog/watchlog.timer -- юнит для таймера
 
 После запуска виртуальной машины, результат можно проверить запуском: tail -f /var/log/messages
 
