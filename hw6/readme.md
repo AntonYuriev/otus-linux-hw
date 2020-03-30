@@ -55,10 +55,20 @@ touch /.autorelabel
 
 # Установить систему с LVM, после чего переименовать VG
 
-см. vg_rename.log
+Лог команд: vg_rename.log
 
 - переименовываем VolGroup00 на OtusRoot
 - правим /etc/fstab, /etc/default/grub, /boot/grub2/grub.cfg
 - пересоздаем initrd image
 - перезагружаемся
 
+# Добавить модуль в initrd
+
+Лог команд: module_initrd.log
+
+- создаём в каталоге /usr/lib/dracut/modules.d/ директорию для нового модуля
+- копируем в неё скрипты module-setup.sh и test.sh
+- пересобираем образ initrd
+- убираем в /etc/grub2.cfg опции rghb и quiet
+- запускаем виртуальную машину в VirtualBox
+- при старте видим пингвина: module_initrd.png
