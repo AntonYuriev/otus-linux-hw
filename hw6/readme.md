@@ -53,4 +53,12 @@ touch /.autorelabel
 
 см. change_root_pswd.3.2.png
 
+# Установить систему с LVM, после чего переименовать VG
+
+см. vg_rename.log
+
+- переименовываем VolGroup00 на OtusRoot
+- правим /etc/fstab, /etc/default/grub, /boot/grub2/grub.cfg
+- пересоздаем initrd image
+- перезагружаемся
 
