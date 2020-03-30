@@ -5,7 +5,7 @@
 ACCESS_LOG="/vagrant/log/access.log"
 MAX_REPORTED_IP_COUNT=10
 MAX_REPORTED_URL_COUNT=10
-REPORT_EMAIL=a.yurev@qiwi.com
+REPORT_EMAIL=my@mail.com
 
 ###
 
