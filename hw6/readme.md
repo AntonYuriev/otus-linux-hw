@@ -8,9 +8,11 @@
 
 Далее сменим пароль root:
 
+```
 mount -o remount,rw /
 passwd root
 touch /.autorelabel
+```
 
 см. change_root_pswd.1.2.png
 
@@ -24,10 +26,12 @@ touch /.autorelabel
 
 Корневая система смонтирована в /sysroot в режиме read only. Для смены пароля необходимо перемонтировать её в режиме RW и сделать chroot:
 
+```
 mount -o remount,rw /sysroot
 chroot /sysroot
 passwd root
 touch /.autorelabel
+```
 
 см. change_root_pswd.2.png
 
@@ -41,9 +45,11 @@ touch /.autorelabel
 
 Корневая система смонтирована в /sysroot в режиме RW. Далее сменим пароль root:
 
+```
 chroot /sysroot
 passwd root
 touch /.autorelabel
+```
 
 см. change_root_pswd.3.2.png
 
