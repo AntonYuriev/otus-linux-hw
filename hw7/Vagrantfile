@@ -6,4 +6,5 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = "hw07"
   config.vm.provision "shell", path: "provision_watchlog.sh"
   config.vm.provision "shell", path: "provision_httpd.sh"
+  config.vm.provision "shell", path: "provision_service_3.sh"
 end

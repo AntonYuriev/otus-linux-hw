@@ -1,0 +1,12 @@
+[Unit]
+Description=My HW service
+
+[Service]
+Type=notify
+ExecStart=/usr/bin/exit_code_143.sh
+SuccessExitStatus=143
+MemoryLimit=1M
+LimitNOFILE=65536
+LimitSTACK=32768
+LimitNPROC=16384
+Restart=on-failure 
