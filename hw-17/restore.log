@@ -1,0 +1,8 @@
+root@client:~# mkdir /mnt/backup
+root@client:~# borg mount ssh://vagrant@192.168.11.151/var/borg::etc-2020-05-04_12:28:51 /mnt/backup
+Remote: Warning: Permanently added '192.168.11.151' (ECDSA) to the list of known hosts.
+Enter passphrase for key ssh://vagrant@192.168.11.151/var/borg: 
+root@client:~# ls /mnt/backup/
+etc
+root@client:~# cp /mnt/backup/etc/hosts /etc/hosts
+root@client:~# borg umount /mnt/backup

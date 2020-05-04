@@ -1,0 +1,73 @@
+# -*- mode: ruby -*-
+# vim: set ft=ruby :
+
+MACHINES = {
+    :client => {
+        :box_name => "debian/stretch64",
+        :ip_addr => '192.168.11.150'
+    },
+    :server => {
+        :box_name => "debian/stretch64",
+        :ip_addr => '192.168.11.151'
+    }
+}
+
+Vagrant.configure("2") do |config|
+
+  MACHINES.each do |boxname, boxconfig|
+
+    config.vm.define boxname do |box|
+
+      box.vm.box = boxconfig[:box_name]
+      box.vm.host_name = boxname.to_s
+
+      box.vm.network "private_network", ip: boxconfig[:ip_addr]
+
+      box.vm.provider :virtualbox do |vb|
+        vb.customize ["modifyvm", :id, "--memory", "200"]
+      end                              
+
+      box.vm.provision "shell", inline: <<-SHELL
+        mkdir -p ~root/.ssh; cp ~vagrant/.ssh/auth* ~root/.ssh
+        sed -i '65s/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+        systemctl restart sshd
+
+        apt-get -y update
+        apt-get install -q -y --no-install-recommends borgbackup
+      SHELL
+
+      case boxname.to_s
+        when "client"          
+          box.vm.provision "shell", run: "always", inline: <<-SHELL
+            echo 'Host 192.168.*.*' >> /root/.ssh/config
+            echo ' StrictHostKeyChecking no' >> /root/.ssh/config
+            echo ' UserKnownHostsFile /dev/null' >> /root/.ssh/config
+
+            cp /vagrant/id_rsa /root/.ssh
+
+            cp /vagrant/backup.sh /root/backup.sh
+            chmod 700 /root/backup.sh
+
+            cp /vagrant/run-backup.sh /etc/cron.hourly/run-backup.sh
+            chmod 700 /etc/cron.hourly/run-backup.sh
+          SHELL
+
+        when "server"
+          public_key = File.read("id_rsa.pub")
+
+          box.vm.provision "shell", run: "always", inline: <<-SHELL
+            echo '#{public_key}' >> /home/vagrant/.ssh/authorized_keys
+            chown -R vagrant /home/vagrant/.ssh
+            chmod 600 /home/vagrant/.ssh/authorized_keys
+
+            apt-get install -y expect
+            cp /vagrant/repo-init.sh /root/repo-init.sh
+            chmod 700 /root/repo-init.sh
+            mkdir /var/borg
+            /root/repo-init.sh
+            chown -R vagrant /var/borg
+          SHELL
+      end
+    end
+  end
+end
