@@ -5,6 +5,7 @@
     name:
       - epel-release
       - curl
+      - nano
     state: present
 
 - name: Import ELK repo key
@@ -33,6 +34,10 @@
   command:
     filebeat modules enable nginx system auditd
 
+- name: Add audit rules
+  command:
+    auditctl -w /etc/nginx/nginx.conf -p wa -k nginx_conf_changes
+
 - name: Copy configs
   copy:
     src: "{{ item.src }}"
@@ -42,7 +47,6 @@
     mode: "{{ item.mode }}"
   with_items:
     - { src: 'filebeat.yml', dest: '/etc/filebeat/filebeat.yml', group: root, mode: '0600' } 
-    - { src: 'nginx.rules', dest: '/etc/audit/rules.d/nginx.rules', group: root, mode: '0600'  }
   notify:
     - Enable and start services
 
