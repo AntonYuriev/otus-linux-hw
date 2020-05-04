@@ -1,0 +1,5 @@
+[webserver]
+webserver ansible_ssh_host=127.0.0.1 ansible_port=3200
+
+[elk]
+elk ansible_ssh_host=127.0.0.1 ansible_port=3201

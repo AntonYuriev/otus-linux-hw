@@ -1,0 +1,49 @@
+---
+
+- name: Install base packages
+  yum:
+    name:
+      - epel-release
+      - curl
+    state: present
+
+- name: Import ELK repo key
+  rpm_key:
+    state: present
+    key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+- name: Add elasticsearch repo
+  yum_repository:
+    name: elasticsearch
+    description: Elasticsearch repository for 7.x packages
+    baseurl: https://artifacts.elastic.co/packages/7.x/yum
+    gpgcheck: yes
+    gpgkey: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    enabled: yes
+
+- name: Install packages
+  yum:
+    name:
+      - nginx
+      - filebeat
+      - audit
+    state: present
+
+- name: Enable modules filebeat 
+  command:
+    filebeat modules enable nginx system auditd
+
+- name: Copy configs
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+  with_items:
+    - { src: 'filebeat.yml', dest: '/etc/filebeat/filebeat.yml', group: root, mode: '0600' } 
+    - { src: 'nginx.rules', dest: '/etc/audit/rules.d/nginx.rules', group: root, mode: '0600'  }
+  notify:
+    - Enable and start services
+
+...
