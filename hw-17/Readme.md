@@ -13,3 +13,18 @@
 - На сервере инициируется репозиторий borg c шифрованием. Так как команда init требует пользовательского ввода, для автоматизации использовалась утилита expect. См. repo-init.sh;
 - резервные копии создаются при помощи скрипта backup.sh
 - скрипт backup.sh запускается раз в час при помощи скрипта /etc/cron.hourly/run-backup.sh, который также сохраняет весь вывод в файл логов /var/log/bcp.log;
+
+Версия borg: 1.0.9
+Политика хранения бекапов и другие параметры задаются в файле backup.sh
+
+Для проверки стэнда можно сделать следующее:
+```
+vagrant up 
+vagrant ssh client
+sudo /root/backup.sh # инициировать бэкап вручную, не дожидаясь крона
+sudo borg list ssh://vagrant@192.168.11.151/var/borg # получить список имеющихся бэкапов
+```
+
+Использовавшиеся материалы:
+- https://borgbackup.readthedocs.io/en/stable/usage/general.html
+- https://habr.com/ru/company/ruvds/blog/328436/
