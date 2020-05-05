@@ -10,6 +10,6 @@
 Виртуальные машины конфигурируются при помощи ansible.
 
 После запуска вирутальных машин покидаем запросы на вебсервер, а также внесём изменение в nginx.conf -- убдеимся, что логи появляются в kibana:
-![Nginx](/screenshots/request.png)
-![Request log](/screenshots/request-log.png)
-![Auditd log](/screenshots/auditd-log.png)
+![Nginx](https://github.com/AntonYuriev/otus-linux-hw/blob/master/hw16/screenshots/request.png?raw=true)
+![Request log](https://github.com/AntonYuriev/otus-linux-hw/blob/master/hw16/screenshots/request-log.png?raw=true)
+![Auditd log](https://github.com/AntonYuriev/otus-linux-hw/blob/master/hw16/screenshots/auditd-log.png?raw=true)
